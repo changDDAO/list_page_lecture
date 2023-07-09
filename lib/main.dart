@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:list_page_lecture/animal_page.dart';
 import 'package:list_page_lecture/model.dart';
 
 void main() {
@@ -13,10 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: MyPage(),
     );
-
   }
-
 }
+
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
 
@@ -44,7 +44,6 @@ class _MyPageState extends State<MyPage> {
     'image/koala.png',
     'image/lion.png',
     'image/tiger.png',
-
   ];
   static List<String> animalLocation = [
     'forest',
@@ -58,8 +57,10 @@ class _MyPageState extends State<MyPage> {
   ];
 
   final List<Animal> animalData = List.generate(
-      animalName.length, (index) =>
-      Animal(animalName[index], animalImagePath[index], animalLocation[index]));
+      animalName.length,
+      (index) => Animal(
+          animalName[index], animalImagePath[index], animalLocation[index]));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,22 +69,24 @@ class _MyPageState extends State<MyPage> {
       ),
       body: ListView.builder(
           itemCount: animalData.length,
-          itemBuilder: (context, index){
+          itemBuilder: (context, index) {
             return Card(
               child: ListTile(
                 title: Text(
-                animalData[index].name,
+                  animalData[index].name,
+                ),
+                leading: SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: Image.asset(animalData[index].imgPath),
+                ),
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context)=>AnimalPage(animal: animalData[index],)));
+                },
               ),
-            leading: SizedBox(
-              height: 50, width: 50,
-              child: Image.asset(animalData[index].imgPath),
-            )),
             );
-          }
-      ),
+          }),
     );
   }
 }
-
-
-
